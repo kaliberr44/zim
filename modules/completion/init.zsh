@@ -21,17 +21,6 @@ autoload -Uz compinit && compinit -C -d "${ZDOTDIR:-${HOME}}/${zcompdump_file:-.
 # set any compdefs
 source ${0:h}/compdefs.zsh
 
-{
-  # zcomple the .zcompdump in the background
-  zcompdump=${ZDOTDIR:-${HOME}}/.zcompdump
-
-  if [[ -s ${zcompdump} && ( ! -s ${zcompdump}.zwc || ${zcompdump} -nt ${zcompdump}.zwc) ]]; then
-    zcompile ${zcompdump}
-  fi
-  
-  unset zcompdump
-} &!
-
 
 #
 # zsh options
@@ -107,6 +96,3 @@ zstyle ':completion:*:history-words' menu yes
 # ignore multiple entries.
 zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
 zstyle ':completion:*:rm:*' file-patterns '*:all-files'
-
-# smart editor completion
-zstyle ':completion:*:(nano|vim|nvim|vi|emacs|e):*' ignored-patterns '*.(wav|mp3|flac|ogg|mp4|avi|mkv|webm|iso|dmg|so|o|a|bin|exe|dll|pcap|7z|zip|tar|gz|bz2|rar|deb|pkg|gzip|pdf|mobi|epub|png|jpeg|jpg|gif)'
