@@ -9,21 +9,16 @@
 if (( terminfo[colors] >= 8 )); then
 
   # ls Colours
-  # GNU colours are used by completion module for all OSTYPEs
-  (( ! ${+LS_COLORS} )) && export LS_COLORS='di=1;34:ln=35:so=32:pi=33:ex=31:bd=1;36:cd=1;33:su=30;41:sg=30;46:tw=30;42:ow=30;43'
-
   if (( ${+commands[dircolors]} )); then
     # GNU
 
-    [[ -s ${HOME}/.dir_colors ]] && eval "$(dircolors --sh ${HOME}/.dir_colors)"
+    (( ! ${+LS_COLORS} )) && if [[ -s ${HOME}/.dir_colors ]]; then
+      eval "$(dircolors --sh ${HOME}/.dir_colors)"
+    else
+      export LS_COLORS='di=1;34:ln=35:so=32:pi=33:ex=31:bd=1;36:cd=1;33:su=30;41:sg=30;46:tw=30;42:ow=30;43'
+    fi
 
     alias ls='ls --group-directories-first --color=auto'
-    alias lx='ll -X' # long format, sort by extension (GNU only)
-
-    # Always wear a condom (GNU only)
-    alias chmod='chmod --preserve-root -v'
-    alias chown='chown --preserve-root -v'
-
   else
     # BSD
 
@@ -43,9 +38,7 @@ if (( terminfo[colors] >= 8 )); then
   (( ! ${+GREP_COLOR} )) && export GREP_COLOR='37;45'               #BSD
   (( ! ${+GREP_COLORS} )) && export GREP_COLORS="mt=${GREP_COLOR}"  #GNU
   if [[ ${OSTYPE} == openbsd* ]]; then
-    if (( ${+commands[ggrep]} )); then
-      alias grep='ggrep --color=auto'
-    fi
+    (( ${+commands[ggrep]} )) && alias grep='ggrep --color=auto'
   else
    alias grep='grep --color=auto'
   fi
@@ -98,6 +91,20 @@ fi
 
 alias df='df -h'
 alias du='du -h'
+
+
+#
+# GNU only
+#
+
+if (( ${+commands[dircolors]} )); then
+
+  alias lx='ll -X' # long format, sort by extension
+
+  # Always wear a condom
+  alias chmod='chmod --preserve-root -v'
+  alias chown='chown --preserve-root -v'
+fi
 
 
 # not aliasing rm -i, but if safe-rm is available, use condom.
