@@ -12,7 +12,7 @@
 	ignore = untracked
 [submodule "modules/prompt/external-themes/pure"]
 	path = modules/prompt/external-themes/pure
-	url = https://github.com/sindresorhus/pure.git
+	url = https://github.com/intelfx/pure.git
 	ignore = untracked
 [submodule "modules/prompt/external-themes/liquidprompt"]
 	path = modules/prompt/external-themes/liquidprompt
